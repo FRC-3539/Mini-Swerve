@@ -62,6 +62,6 @@
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "TT Coral",
   "choreoAuto": false
 }

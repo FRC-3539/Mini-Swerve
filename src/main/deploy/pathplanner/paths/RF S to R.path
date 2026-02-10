@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.169573863636364,
+        "y": 1.9110227272727274
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.232244318181819,
+        "y": 2.2999147727272717
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.394630681818183,
+        "y": 2.8483522727272725
+      },
+      "prevControl": {
+        "x": 6.312017045454547,
+        "y": 2.539232954545455
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 122.25797134181518
+  },
+  "reversed": false,
+  "folder": "Chris 2025 Reefscape",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -179.6419060406764
+  },
+  "useDefaultConstraints": true
+}
