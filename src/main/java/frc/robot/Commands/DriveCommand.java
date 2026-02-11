@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot;
+package frc.robot.Commands;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
@@ -12,6 +12,8 @@ import org.frcteam3539.Byte_Swerve_Lib.control.PidController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotContainer;
+import frc.robot.Constants.Constants;
 
 public class DriveCommand extends Command {
 	Translation2d blueSpeakerCoordinate = new Translation2d(0, 5.55);
@@ -25,12 +27,12 @@ public class DriveCommand extends Command {
 
 	double rotationDeadband = maxRotationalVelocity * 0.02;
 	private final SwerveRequest.FieldCentric driveFieldCentric = new SwerveRequest.FieldCentric()
-			.withDeadband(maxVelocity * 0.02).withRotationalDeadband(rotationDeadband) // Add a 10% deadband
-			.withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
+		.withDeadband(maxVelocity * 0.02).withRotationalDeadband(rotationDeadband) // Add a 10% deadband
+		.withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
 
 	private final SwerveRequest.RobotCentric driveRobotCentric = new SwerveRequest.RobotCentric()
-			.withDeadband(maxVelocity * 0.02).withRotationalDeadband(rotationDeadband) // Add a 10% deadband
-			.withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
+		.withDeadband(maxVelocity * 0.02).withRotationalDeadband(rotationDeadband) // Add a 10% deadband
+		.withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
 
 	public DriveCommand() {
 		addRequirements(RobotContainer.driveSubsystem);
@@ -56,13 +58,20 @@ public class DriveCommand extends Command {
 		double speedMultiplier = Constants.speedMultiplier;
 		double rotationSpeedMultiplier = Constants.rotationSpeedMultiplier;
 
-		if (RobotContainer.rightDriverTrigger.getAsBoolean()) // Turbo
-		{
+		// Slow mode
+		// if (RobotContainer.leftDriverTrigger.getAsBoolean()) {
+		// 	speedMultiplier = Constants.turboSpeedMultiplier;
+		// 	rotationSpeedMultiplier = Constants.turboRotationSpeedMultiplier;
+		// }
+
+		// Turbo mode
+		if (RobotContainer.rightDriverTrigger.getAsBoolean()) {
 			speedMultiplier = Constants.turboSpeedMultiplier;
 			rotationSpeedMultiplier = Constants.turboRotationSpeedMultiplier;
 		}
 
-		if (RobotContainer.rightDriverBumper.getAsBoolean()) { // Robot Centric
+		if (RobotContainer.rightDriverBumper.getAsBoolean()) {
+			// Robot centric
 			request = driveRobotCentric
 					.withVelocityX(-RobotContainer.driverController.getLeftY() * maxVelocity * speedMultiplier)
 					.withVelocityY(-RobotContainer.driverController.getLeftX() * maxVelocity * speedMultiplier)
@@ -70,6 +79,7 @@ public class DriveCommand extends Command {
 							* rotationSpeedMultiplier)
 					.withRotationalDeadband(rotationDeadband);
 		} else {
+			// Field centric
 			request = driveFieldCentric
 					.withVelocityX(-RobotContainer.driverController.getLeftY() * maxVelocity * speedMultiplier)
 					.withVelocityY(-RobotContainer.driverController.getLeftX() * maxVelocity * speedMultiplier)

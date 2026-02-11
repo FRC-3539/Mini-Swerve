@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.Constants;
 
 public class Constants {
     //ID Constants
