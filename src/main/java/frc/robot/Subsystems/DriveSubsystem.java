@@ -44,7 +44,7 @@ public class DriveSubsystem extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder>
 	public DriveSubsystem(SwerveDrivetrainConstants driveTrainConstants, SwerveModuleConstants... modules) {
 		super(TalonFX::new, TalonFX::new, CANcoder::new, driveTrainConstants, modules);
 
-		rangeFinder = new CANrange(Constants.rangeFinderID, "rio");
+		// rangeFinder = new CANrange(Constants.rangeFinderID, "rio");
 
 		rangeFinder.getConfigurator().apply(new FovParamsConfigs()
 		.withFOVCenterX(0)

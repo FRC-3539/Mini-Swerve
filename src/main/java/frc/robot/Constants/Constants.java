@@ -2,7 +2,6 @@ package frc.robot.Constants;
 
 public class Constants {
     //ID Constants
-    public static int pigeonID = 25;    
     public static int FLDriveID = 1;
     public static int FLSteerID = 2;
     public static int BRDriveID = 3;
@@ -11,15 +10,15 @@ public class Constants {
     public static int BLDriveID = 6;
     public static int FRSteerID = 7;
     public static int FRDriveID = 8;
+    public static int pigeonID = 25;
     public static int BLCanCoderID = 30;
     public static int BRCanCoderID = 31;
     public static int FLCanCoderID = 32;
     public static int FRCanCoderID = 33;
-    public static int clawServoID = 0;
-    public static int  coralIntakeMotorID = 21;
-    public static int funnelMotorID = 9;
-    public static int rangeFinderID = 16;
-
+    // public static int clawServoID = 0;
+    // public static int rangeFinderID = 16;
+    public static int CANdleID = 40;
+    public static String CANdleCanName = "Default Name";
 
     
     //Drive Constants
@@ -42,12 +41,7 @@ public class Constants {
 	public static double turboRotationSpeedMultiplier = 0.3;
 	public static double AlignkP = 2;
 
-    public static double clawOpenPosition = .4;
-    public static double clawClosedPosition = 0.1;
-
-    public static double coralIntakeVoltage = 1.0;
-    public static double funnelVoltage = 1.0;
-
-
+    // public static double clawOpenPosition = .4;
+    // public static double clawClosedPosition = 0.1;
 
 }

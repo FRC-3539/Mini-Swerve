@@ -29,11 +29,13 @@ public class RobotContainer {
 
     // Subsystems
     public static DriveSubsystem driveSubsystem = TunerConstants.createDrivetrain();
-    public static ServoSubsystem servoSubsystem = new ServoSubsystem();
+    // public static ServoSubsystem servoSubsystem = new ServoSubsystem();
+    public static VisionSubsystem visionSubsystem = new VisionSubsystem();
 
     // Controllers
-    public static CommandXboxController driverController = new CommandXboxController(1);
     public static CommandXboxController operatorController = new CommandXboxController(0);
+    public static CommandXboxController driverController = new CommandXboxController(1);
+    public static CommandXboxController testController = new CommandXboxController(2);
 
     public static Trigger leftDriverTrigger = driverController.leftTrigger(0.5);
     public static Trigger rightDriverTrigger = driverController.rightTrigger(0.5);
@@ -43,8 +45,10 @@ public class RobotContainer {
     public static SendableChooser<Command> chooser = new SendableChooser<Command>();
 
     public RobotContainer() {
-        NamedCommands.registerCommand("OpenServoCommand", new ServoCommand(Constants.clawOpenPosition));
-        NamedCommands.registerCommand("ClosedServoCommand", new ServoCommand(Constants.clawClosedPosition));
+        // NamedCommands.registerCommand("OpenServoCommand", new ServoCommand(Constants.clawOpenPosition));
+        // NamedCommands.registerCommand("ClosedServoCommand", new ServoCommand(Constants.clawClosedPosition));
+
+        visionSubsystem.start();
 
         configureBindings();
         putAutons();
