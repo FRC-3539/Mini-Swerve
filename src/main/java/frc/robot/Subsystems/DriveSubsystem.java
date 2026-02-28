@@ -30,7 +30,7 @@ import java.util.Arrays;
 
 public class DriveSubsystem extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> implements Subsystem {
 	/** Creates a new DrivetrainSubsystem. */
-	private CANrange rangeFinder;
+	// private CANrange rangeFinder;
 	private SwerveRequest swerveRequest = new SwerveRequest.Idle();
 
 	private final SwerveRequest.ApplyRobotSpeeds m_pathApplyRobotSpeeds = new SwerveRequest.ApplyRobotSpeeds();
@@ -46,12 +46,12 @@ public class DriveSubsystem extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder>
 
 		// rangeFinder = new CANrange(Constants.rangeFinderID, "rio");
 
-		rangeFinder.getConfigurator().apply(new FovParamsConfigs()
-		.withFOVCenterX(0)
-		.withFOVCenterY(0)
-		.withFOVRangeX(6.75)
-		.withFOVRangeY(6.75)
-		);
+		// rangeFinder.getConfigurator().apply(new FovParamsConfigs()
+		// .withFOVCenterX(0)
+		// .withFOVCenterY(0)
+		// .withFOVRangeX(6.75)
+		// .withFOVRangeY(6.75)
+		// );
 
 		maxVelocity = modules[0].SpeedAt12Volts;
 
@@ -71,9 +71,9 @@ public class DriveSubsystem extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder>
 		configureAutoBuilder();
 	}
 
-	public double getDistance() {
-		return rangeFinder.getDistance().getValueAsDouble();
-	}
+	// public double getDistance() {
+	// 	return rangeFinder.getDistance().getValueAsDouble();
+	// }
 
 	public Pose2d getPose2d() {
 		return this.getState().Pose;
@@ -84,7 +84,7 @@ public class DriveSubsystem extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder>
 	}
 
 	public void log() {
-		SmartDashboard.putString("/CANrange/Distance", df.format(getDistance()));
+		// SmartDashboard.putString("/CANrange/Distance", df.format(getDistance()));
 		publishPose2d("/DriveTrain/Pose", getPose2d());
 	}
 

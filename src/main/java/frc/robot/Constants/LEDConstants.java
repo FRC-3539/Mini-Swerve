@@ -11,7 +11,7 @@ public class LEDConstants {
 
 	public static double maxBrightness = .4; // out of 1
 	public static double flashSpeed = 0.25;
-	public static int numLights = 20;
+	public static int numLights = 36;
 	public static Color Green = new Color(0, 255, 0);
 	public static Color Orange = new Color(255, 40, 0);
 	public static Color Blue = new Color(0, 0, 255);

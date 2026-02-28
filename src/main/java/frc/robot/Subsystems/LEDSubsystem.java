@@ -4,21 +4,18 @@
 
 package frc.robot.Subsystems;
 
-import com.ctre.phoenix.led.CANdle;
-import com.ctre.phoenix.led.CANdle.LEDStripType;
-import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
-import com.ctre.phoenix.led.ColorFlowAnimation;
-import com.ctre.phoenix.led.FireAnimation;
-import com.ctre.phoenix.led.LarsonAnimation;
-import com.ctre.phoenix.led.RainbowAnimation;
-import com.ctre.phoenix.led.LarsonAnimation.BounceMode;
-import com.ctre.phoenix.led.StrobeAnimation;
+import com.ctre.phoenix6.hardware.CANdle;
+import com.ctre.phoenix6.signals.RGBWColor;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
 import frc.robot.Test.Operator.OperatorTestController;
+
+import com.ctre.phoenix6.controls.ColorFlowAnimation;
+import com.ctre.phoenix6.controls.SolidColor;
+import com.ctre.phoenix6.controls.StrobeAnimation;
 
 public class LEDSubsystem extends SubsystemBase {
 
@@ -34,9 +31,9 @@ public class LEDSubsystem extends SubsystemBase {
 		enabled = enable;
 
 		candle = new CANdle(Constants.CANdleID, Constants.CANdleCanName);
-		candle.configLEDType(LEDStripType.GRB);
-		candle.configBrightnessScalar(LEDConstants.maxBrightness);
-		setLEDs(LEDState.ON);
+		// candle.configLEDType(LEDStripType.GRB);
+		// candle.configBrightnessScalar(LEDConstants.maxBrightness);
+		setLEDs(LEDState.YELLOW);
 	}
 
 	public enum LEDState {
@@ -46,66 +43,69 @@ public class LEDSubsystem extends SubsystemBase {
 		RED, GREEN, BLUE, YELLOW
 	}
 
-	public static LEDState state;
+	private static LEDState state;
 
 	public static void setLEDS(Color color) {
-		candle.setLEDs((int) color.red, (int) color.green, (int) color.blue);
+		candle.setControl(new SolidColor(0, LEDConstants.numLights)
+			.withColor(new RGBWColor((int) color.red, (int) color.green, (int) color.blue)));
 	}
 
 	public static void setLEDs(LEDState state) {
-		if (!enabled)
+		if (LEDSubsystem.state == state)
 			return;
+
+		System.out.println("\n\nset state to " + state.toString());
+
+		LEDSubsystem.state = state;
 
 		switch (state) {
 			case OFF:
-				candle.animate(null);
-				candle.setLEDs(0, 0, 0);
+				candle.setControl(new SolidColor(0, LEDConstants.numLights)
+					.withColor(new RGBWColor(0, 0, 0)));
 				break;
 
 			case ON:
-				candle.animate(new ColorFlowAnimation(LEDConstants.Green.getRed(), LEDConstants.Green.getGreen(),
-						LEDConstants.Green.getBlue(), 0, LEDConstants.flashSpeed, LEDConstants.numLights,
-						Direction.Forward));
+				candle.setControl(new ColorFlowAnimation(0, LEDConstants.numLights)
+					.withColor(new RGBWColor(LEDConstants.Green.getRed(), LEDConstants.Green.getGreen(), LEDConstants.Green.getBlue())));
+				
+				// candle.animate(new ColorFlowAnimation(LEDConstants.Green.getRed(), LEDConstants.Green.getGreen(),
+				// 		LEDConstants.Green.getBlue(), 0, LEDConstants.flashSpeed, LEDConstants.numLights,
+				// 		Direction.Forward));
 				break;
 
 			case CONNECTED:
-				candle.animate(null);
-				candle.setLEDs(LEDConstants.Green.getRed(), LEDConstants.Green.getGreen(),
-						LEDConstants.Green.getBlue());
+				candle.setControl(new SolidColor(0, LEDConstants.numLights)
+					.withColor(new RGBWColor(LEDConstants.Green.getRed(), LEDConstants.Green.getGreen(), LEDConstants.Green.getBlue(), 255)));
 				break;
 
 			case B:
 			case ERROR:
 			case RED:
-				candle.animate(null);
-				candle.setLEDs(LEDConstants.Red.getRed(), LEDConstants.Red.getGreen(),
-						LEDConstants.Red.getBlue());
+				candle.setControl(new SolidColor(0, LEDConstants.numLights)
+					.withColor(new RGBWColor(LEDConstants.Red.getRed(), LEDConstants.Red.getGreen(), LEDConstants.Red.getBlue())));
 				break;
 
 			case A:
 			case GREEN:
-				candle.animate(null);
-				candle.setLEDs(LEDConstants.Green.getRed(), LEDConstants.Green.getGreen(),
-						LEDConstants.Green.getBlue());
+				candle.setControl(new SolidColor(0, LEDConstants.numLights)
+					.withColor(new RGBWColor(LEDConstants.Green.getRed(), LEDConstants.Green.getGreen(), LEDConstants.Green.getBlue())));
 				break;
 
 			case X:
 			case BLUE:
-				candle.animate(null);
-				candle.setLEDs(LEDConstants.Blue.getRed(), LEDConstants.Blue.getGreen(),
-						LEDConstants.Blue.getBlue());
+				candle.setControl(new SolidColor(0, LEDConstants.numLights)
+					.withColor(new RGBWColor(LEDConstants.Blue.getRed(), LEDConstants.Blue.getGreen(), LEDConstants.Blue.getBlue())));
 				break;
 
 			case Y:
 			case YELLOW:
-				candle.animate(null);
-				candle.setLEDs(LEDConstants.Yellow.getRed(), LEDConstants.Yellow.getGreen(),
-						LEDConstants.Yellow.getBlue());
+				candle.setControl(new SolidColor(0, LEDConstants.numLights)
+					.withColor(new RGBWColor(LEDConstants.Yellow.getRed(), LEDConstants.Yellow.getGreen(), LEDConstants.Yellow.getBlue())));
 				break;
 
 			case AUTO:
-				candle.animate(new StrobeAnimation(LEDConstants.Blue.getRed(), LEDConstants.Blue.getGreen(),
-						LEDConstants.Blue.getBlue(), 0, LEDConstants.flashSpeed, LEDConstants.numLights));
+				candle.setControl(new StrobeAnimation(0, LEDConstants.numLights)
+					.withColor(new RGBWColor(LEDConstants.Blue.getRed(), LEDConstants.Blue.getGreen(), LEDConstants.Blue.getBlue())));
 				break;
 
 			default:
@@ -119,12 +119,16 @@ public class LEDSubsystem extends SubsystemBase {
 			setLEDs(LEDState.ERROR);
 			return;
 		}
-		if (aligning && !VisionSubsystem.frontCam.isConnected() && !VisionSubsystem.backCam.isConnected()) {
-			setLEDs(LEDState.ERROR);
-			return;
-		}
+		// if (aligning && !VisionSubsystem.frontCam.isConnected() && !VisionSubsystem.backCam.isConnected()) {
+		// 	setLEDs(LEDState.ERROR);
+		// 	return;
+		// }
 
-		if (!OperatorTestController.testActive())
-			setLEDs(LEDState.OFF);
+		// if (!OperatorTestController.testActive()) {
+		// 	setLEDs(LEDState.OFF);
+		// 	return;
+		// }
+
+		setLEDs(LEDState.CONNECTED);
 	}
 }

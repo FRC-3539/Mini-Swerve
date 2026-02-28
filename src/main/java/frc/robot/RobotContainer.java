@@ -31,6 +31,7 @@ public class RobotContainer {
     public static DriveSubsystem driveSubsystem = TunerConstants.createDrivetrain();
     // public static ServoSubsystem servoSubsystem = new ServoSubsystem();
     public static VisionSubsystem visionSubsystem = new VisionSubsystem();
+    public static LEDSubsystem ledSubsystem = new LEDSubsystem(true);
 
     // Controllers
     public static CommandXboxController operatorController = new CommandXboxController(0);
@@ -48,7 +49,7 @@ public class RobotContainer {
         // NamedCommands.registerCommand("OpenServoCommand", new ServoCommand(Constants.clawOpenPosition));
         // NamedCommands.registerCommand("ClosedServoCommand", new ServoCommand(Constants.clawClosedPosition));
 
-        visionSubsystem.start();
+        // visionSubsystem.start();
 
         configureBindings();
         putAutons();

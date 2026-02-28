@@ -18,11 +18,11 @@ public class Constants {
     // public static int clawServoID = 0;
     // public static int rangeFinderID = 16;
     public static int CANdleID = 40;
-    public static String CANdleCanName = "Default Name";
+    public static String CANdleCanName = "rio";
 
     
     //Drive Constants
-	public static double TranslationkP = 15;
+	public static double TranslationkP = 10;
 	public static double TranslationkI = 0;
 	public static double TranslationkD = 0;
 	public static double RotationkP = 5;
@@ -35,8 +35,8 @@ public class Constants {
 	public static double FRSteerOffset = 0;
 	public static double BLSteerOffset = 0;
 	public static double BRSteerOffset = 0;
-	public static double speedMultiplier = .25;
-	public static double rotationSpeedMultiplier = 0.15;
+	public static double speedMultiplier = 0.8;
+	public static double rotationSpeedMultiplier = 0.4;
 	public static double turboSpeedMultiplier = 0.4;
 	public static double turboRotationSpeedMultiplier = 0.3;
 	public static double AlignkP = 2;
