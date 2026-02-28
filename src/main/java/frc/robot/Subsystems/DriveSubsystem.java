@@ -17,6 +17,7 @@ import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -37,6 +38,7 @@ public class DriveSubsystem extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder>
 
 	public double maxVelocity = 0.0;
 	public double maxRotationalVelocity = 0.0;
+	public static double velocityX, velocityY, velocityR = 0.0;
 	DecimalFormat df = new DecimalFormat("#.00000");
 
 	public Pigeon2 pigeon = new Pigeon2(Constants.pigeonID, "rio");
@@ -127,6 +129,19 @@ public class DriveSubsystem extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder>
 	public void periodic() {
 		SwerveRequest request = new SwerveRequest.Idle();
 		request = swerveRequest;
+
+		velocityX = ChassisSpeeds.fromRobotRelativeSpeeds(this.getState().Speeds,
+				this.getPose2d().getRotation()).vxMetersPerSecond;
+
+		velocityY = ChassisSpeeds.fromRobotRelativeSpeeds(this.getState().Speeds,
+				this.getPose2d().getRotation()).vyMetersPerSecond;
+
+		velocityR = ChassisSpeeds.fromRobotRelativeSpeeds(this.getState().Speeds,
+				this.getPose2d().getRotation()).omegaRadiansPerSecond;
+
+		double robotVelocity = Math.sqrt(Math.pow(velocityX, 2) + Math.pow(velocityY, 2));
+
+		SmartDashboard.putNumber("/DriveTrain/RobotVelocity", robotVelocity);
 
 		this.setControl(request);
 		// This method will be called once per scheduler run

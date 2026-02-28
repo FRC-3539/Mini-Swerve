@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
+import frc.robot.Test.Driver.DriverTestController.DriveTestPoints;
 import frc.robot.Test.Operator.OperatorTestController;
 
 import com.ctre.phoenix6.controls.ColorFlowAnimation;
@@ -40,7 +41,7 @@ public class LEDSubsystem extends SubsystemBase {
 		A, B, X, Y, POV_UP, POV_DOWN, POV_LEFT, POV_RIGHT,
 		LEFT_TRIGGER, RIGHT_TRIGGER,
 		ON, OFF, CONNECTED, AUTO, ERROR,
-		RED, GREEN, BLUE, YELLOW
+		RED, GREEN, BLUE, YELLOW, WHITE
 	}
 
 	private static LEDState state;
@@ -50,11 +51,27 @@ public class LEDSubsystem extends SubsystemBase {
 			.withColor(new RGBWColor((int) color.red, (int) color.green, (int) color.blue)));
 	}
 
+	public static void setLEDs(DriveTestPoints point) {
+        // TAG_BLUE, TAG_RED, TRACE_CENTER, LOOP_TRENCHES, TAG_OUTPOST_HUB
+		switch (point) {
+			case TAG_BLUE:
+				setLEDs(LEDState.BLUE);
+			case TAG_RED:
+				setLEDs(LEDState.RED);
+			case TRACE_CENTER:
+				setLEDs(LEDState.WHITE);
+			case LOOP_TRENCHES:
+				setLEDs(LEDState.YELLOW);
+			case TAG_OUTPOST_HUB:
+				setLEDs(LEDState.GREEN);
+		}
+	}
+
 	public static void setLEDs(LEDState state) {
 		if (LEDSubsystem.state == state)
 			return;
 
-		System.out.println("\n\nset state to " + state.toString());
+		System.out.println("set state to " + state.toString());
 
 		LEDSubsystem.state = state;
 
@@ -101,6 +118,11 @@ public class LEDSubsystem extends SubsystemBase {
 			case YELLOW:
 				candle.setControl(new SolidColor(0, LEDConstants.numLights)
 					.withColor(new RGBWColor(LEDConstants.Yellow.getRed(), LEDConstants.Yellow.getGreen(), LEDConstants.Yellow.getBlue())));
+				break;
+
+			case WHITE:
+				candle.setControl(new SolidColor(0, LEDConstants.numLights)
+					.withColor(new RGBWColor(255, 255, 255)));
 				break;
 
 			case AUTO:

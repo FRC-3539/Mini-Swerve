@@ -35,8 +35,8 @@ public class Constants {
 	public static double FRSteerOffset = 0;
 	public static double BLSteerOffset = 0;
 	public static double BRSteerOffset = 0;
-	public static double speedMultiplier = 0.8;
-	public static double rotationSpeedMultiplier = 0.4;
+	public static double speedMultiplier = 0.7;
+	public static double rotationSpeedMultiplier = 0.3;
 	public static double turboSpeedMultiplier = 0.4;
 	public static double turboRotationSpeedMultiplier = 0.3;
 	public static double AlignkP = 2;

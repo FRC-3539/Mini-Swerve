@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.*;
 import frc.robot.Subsystems.*;
+import frc.robot.Test.Driver.RunDriverTestCommand;
 import frc.robot.Commands.*;
 
 /**
@@ -53,6 +54,7 @@ public class RobotContainer {
 
         configureBindings();
         putAutons();
+        putCommands();
     }
 
     // Send the auton options to the dashboard
@@ -60,11 +62,17 @@ public class RobotContainer {
         chooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData(chooser);
     }
+    
+    public void putCommands() {
+        SmartDashboard.putData(new RunDriverTestCommand().ignoringDisable(true));
+    }
 
     // Map commands to controller input
     private void configureBindings() {
         driveSubsystem.setDefaultCommand(new DriveCommand());
         driverController.start().whileTrue(new ZeroGyroCommand());
+
+        driverController.a().whileTrue(new RunDriverTestCommand());
     }
 
     /**

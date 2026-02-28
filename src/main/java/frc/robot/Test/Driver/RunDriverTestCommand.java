@@ -16,11 +16,11 @@ public class RunDriverTestCommand extends Command {
 
     Command script;
 
-    List<DriveTestPoints> shuffle = List.of(
+    ArrayList<DriveTestPoints> shuffle = new ArrayList<DriveTestPoints>(List.of(
             DriveTestPoints.TAG_BLUE, DriveTestPoints.TAG_BLUE,
             DriveTestPoints.TRACE_CENTER, DriveTestPoints.TRACE_CENTER,
             DriveTestPoints.LOOP_TRENCHES, DriveTestPoints.LOOP_TRENCHES,
-            DriveTestPoints.TAG_OUTPOST_HUB, DriveTestPoints.TAG_OUTPOST_HUB);
+            DriveTestPoints.TAG_OUTPOST_HUB, DriveTestPoints.TAG_OUTPOST_HUB));
 
     List<DriveTestPoints> points;
 
@@ -36,13 +36,14 @@ public class RunDriverTestCommand extends Command {
             points.add(DriveTestPoints.TAG_RED);
         }
 
-        DriverTestController.startTest();
+        DriverTestController.startTest(points);
         // script.schedule();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        DriverTestController.update();
     }
 
     // Called once the command ends or is interrupted.
@@ -55,6 +56,7 @@ public class RunDriverTestCommand extends Command {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return script.isFinished();
+        return false;
+        // return script.isFinished();
     }
 }
