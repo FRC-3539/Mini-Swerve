@@ -17,7 +17,7 @@ public class RunDriverTestCommand extends Command {
     Command script;
 
     ArrayList<DriveTestPoints> shuffle = new ArrayList<DriveTestPoints>(List.of(
-            DriveTestPoints.TAG_BLUE, DriveTestPoints.TAG_BLUE,
+            DriveTestPoints.TAG_RED, DriveTestPoints.TAG_RED,
             DriveTestPoints.TRACE_CENTER, DriveTestPoints.TRACE_CENTER,
             DriveTestPoints.LOOP_TRENCHES, DriveTestPoints.LOOP_TRENCHES,
             DriveTestPoints.TAG_OUTPOST_HUB, DriveTestPoints.TAG_OUTPOST_HUB));
@@ -33,7 +33,7 @@ public class RunDriverTestCommand extends Command {
         points = new ArrayList<DriveTestPoints>();
         for (DriveTestPoints driveTestPoint : shuffle) {
             points.add(driveTestPoint);
-            points.add(DriveTestPoints.TAG_RED);
+            // points.add(DriveTestPoints.TAG_BLUE);
         }
 
         DriverTestController.startTest(points);
@@ -49,14 +49,14 @@ public class RunDriverTestCommand extends Command {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        DriverTestController.endTest();
+        //DriverTestController.endTest();
         // script.cancel();
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        return !DriverTestController.isRunning();
         // return script.isFinished();
     }
 }

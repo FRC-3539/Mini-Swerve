@@ -28,6 +28,6 @@ public class AwaitInputCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return OperatorTestController.currentExpectedInput == null && !OperatorTestController.runningInputCommand.isScheduled();
+    return OperatorTestController.currentExpectedInput == "" && !OperatorTestController.runningInputCommand.isScheduled();
   }
 }

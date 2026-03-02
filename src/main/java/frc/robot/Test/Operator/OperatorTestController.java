@@ -15,8 +15,9 @@ import frc.robot.Subsystems.LEDSubsystem.LEDState;
 public class OperatorTestController {
     public static Command operatorTestCommand;
 
-    public static String currentExpectedInput = null;
+    public static String currentExpectedInput = "";
     public static Command runningInputCommand = null;
+    private static int requests = 0;
 
     public static int correctPresses, incorrectPresses;
     public static ArrayList<Double> inputTimes = new ArrayList<Double>();
@@ -31,6 +32,7 @@ public class OperatorTestController {
     }
 
     public static void expectInput(String button) {
+        requests++;
         currentExpectedInput = button;
         buttonTimer.restart();
     }
@@ -38,12 +40,12 @@ public class OperatorTestController {
     public static boolean processInput(String button, Command inputCommand) {
         if (button == currentExpectedInput) {
             buttonTimer.stop();
-            LEDSubsystem.setLEDs(LEDState.OFF);;
+            LEDSubsystem.setLEDs(LEDState.OFF);
             inputTimes.add(buttonTimer.get());
             correctPresses++;
             runningInputCommand = inputCommand;
             runningInputCommand.schedule();
-            currentExpectedInput = null;
+            currentExpectedInput = "";
             return true;
         }
         else {
@@ -53,6 +55,7 @@ public class OperatorTestController {
     }
 
     public static void resetTest() {
+        requests = 0;
         correctPresses = 0;
         incorrectPresses = 0;
         inputTimes.clear();
@@ -79,12 +82,19 @@ public class OperatorTestController {
         if (!inputTimes.isEmpty()) results.put("averageResponseTime", df.format(totalResponseTime / inputTimes.size()));
         results.put("totalTime", df.format(overallTimer.get()));
 
-        SmartDashboard.putString("operatorTestResults", results.toJSONString());
+        SmartDashboard.putString("/Test/Operator/Results", results.toJSONString());
 
         resetTest();
     }
 
-    public static boolean testActive() {
+    public static boolean isRunning() {
         return overallTimer.isRunning();
+    }
+
+    public static void log() {
+        SmartDashboard.putBoolean("/Test/Operator/Running", isRunning());
+        if (!isRunning()) return;
+        SmartDashboard.putNumber("/Test/Operator/Requests", requests);
+        SmartDashboard.putString("/Test/Operator/Instruction", currentExpectedInput);
     }
 }

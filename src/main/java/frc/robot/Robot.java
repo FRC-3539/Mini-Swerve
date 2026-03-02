@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Test.Driver.DriverTestController;
+import frc.robot.Test.Operator.OperatorTestController;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -50,6 +52,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotPeriodic() {
 		RobotContainer.driveSubsystem.log();
+		DriverTestController.log();
+		OperatorTestController.log();
 		//RobotContainer.logController.logPeriodic();
 		if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() != currentAlliance) {
 			currentAlliance = DriverStation.getAlliance().get();

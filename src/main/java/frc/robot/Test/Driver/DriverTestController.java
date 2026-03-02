@@ -9,7 +9,6 @@ import org.json.simple.JSONObject;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.RobotContainer;
 import frc.robot.Subsystems.*;
 import frc.robot.Subsystems.LEDSubsystem.LEDState;
 
@@ -20,6 +19,7 @@ public class DriverTestController {
     }
 
     private static ArrayList<DriveTestPoints> points;
+    private static int instructionIndex = 0;
 
     // Evaluation variables
     private static final double DT = 0.02, ALPHA = 0.25, MIN_SPEED = 0.1;
@@ -44,14 +44,25 @@ public class DriverTestController {
         previousVelocity = new Translation2d();
         previousAngle = 0;
         sampleSize = 0;
+        instructionIndex = 0;
 
         overallTimer.reset();
     }
 
     public static void startTest(List<DriveTestPoints> points) {
-        LEDSubsystem.setLEDs(LEDState.OFF);
+        LEDSubsystem.setLEDs(points.get(instructionIndex));
         DriverTestController.points = new ArrayList<>(points);
         overallTimer.start();
+    }
+
+    public static void nextInstruction() {
+        if (instructionIndex >= points.size() - 1) {
+            endTest();
+            LEDSubsystem.setLEDs(LEDState.OFF);
+            return;
+        }
+        instructionIndex++;
+        LEDSubsystem.setLEDs(points.get(instructionIndex));
     }
 
     public static void endTest() {
@@ -65,7 +76,7 @@ public class DriverTestController {
         results.put("Time", overallTimer.get());
         results.put("Samples", sampleSize);
 
-        SmartDashboard.putString("/Test/Drive/Results", results.toJSONString());
+        SmartDashboard.putString("/Test/Driver/Results", results.toJSONString());
 
         resetTest();
     }
@@ -76,7 +87,7 @@ public class DriverTestController {
 
         double currentAngle;
         if (smoothVelocity.getNorm() == 0) currentAngle = previousAngle;
-        else currentAngle = smoothVelocity.getAngle().getDegrees();
+        else currentAngle = smoothVelocity.getAngle().getRadians();
 
         if (sampleSize > 0) {
             // Calculate acceleration
@@ -98,7 +109,13 @@ public class DriverTestController {
         previousAngle = currentAngle;
     }
 
-    public static boolean testActive() {
+    public static boolean isRunning() {
         return overallTimer.isRunning();
+    }
+
+    public static void log() {
+        SmartDashboard.putBoolean("/Test/Driver/Running", isRunning());
+        if (!isRunning()) return;
+        SmartDashboard.putString("/Test/Driver/Instruction", points.get(instructionIndex).toString());
     }
 }

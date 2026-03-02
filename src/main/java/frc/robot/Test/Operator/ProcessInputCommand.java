@@ -21,6 +21,7 @@ public class ProcessInputCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    if (!OperatorTestController.isRunning()) return;
     OperatorTestController.processInput(button, successAction);
   }
 

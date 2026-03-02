@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
+import frc.robot.Test.Driver.DriverTestController;
 import frc.robot.Test.Driver.DriverTestController.DriveTestPoints;
 import frc.robot.Test.Operator.OperatorTestController;
 
@@ -54,24 +55,28 @@ public class LEDSubsystem extends SubsystemBase {
 	public static void setLEDs(DriveTestPoints point) {
         // TAG_BLUE, TAG_RED, TRACE_CENTER, LOOP_TRENCHES, TAG_OUTPOST_HUB
 		switch (point) {
+			case TAG_OUTPOST_HUB:
 			case TAG_BLUE:
 				setLEDs(LEDState.BLUE);
+				break;
 			case TAG_RED:
 				setLEDs(LEDState.RED);
+				break;
 			case TRACE_CENTER:
 				setLEDs(LEDState.WHITE);
+				break;
 			case LOOP_TRENCHES:
-				setLEDs(LEDState.YELLOW);
-			case TAG_OUTPOST_HUB:
 				setLEDs(LEDState.GREEN);
+				break;
+			// case TAG_OUTPOST_HUB:
+			// 	setLEDs(LEDState.GREEN);
+			// 	break;
 		}
 	}
 
 	public static void setLEDs(LEDState state) {
 		if (LEDSubsystem.state == state)
 			return;
-
-		System.out.println("set state to " + state.toString());
 
 		LEDSubsystem.state = state;
 
@@ -90,9 +95,11 @@ public class LEDSubsystem extends SubsystemBase {
 				// 		Direction.Forward));
 				break;
 
+			case A:
+			case GREEN:
 			case CONNECTED:
 				candle.setControl(new SolidColor(0, LEDConstants.numLights)
-					.withColor(new RGBWColor(LEDConstants.Green.getRed(), LEDConstants.Green.getGreen(), LEDConstants.Green.getBlue(), 255)));
+					.withColor(new RGBWColor(LEDConstants.Green.getRed(), LEDConstants.Green.getGreen(), LEDConstants.Green.getBlue())));
 				break;
 
 			case B:
@@ -100,12 +107,6 @@ public class LEDSubsystem extends SubsystemBase {
 			case RED:
 				candle.setControl(new SolidColor(0, LEDConstants.numLights)
 					.withColor(new RGBWColor(LEDConstants.Red.getRed(), LEDConstants.Red.getGreen(), LEDConstants.Red.getBlue())));
-				break;
-
-			case A:
-			case GREEN:
-				candle.setControl(new SolidColor(0, LEDConstants.numLights)
-					.withColor(new RGBWColor(LEDConstants.Green.getRed(), LEDConstants.Green.getGreen(), LEDConstants.Green.getBlue())));
 				break;
 
 			case X:
@@ -120,6 +121,8 @@ public class LEDSubsystem extends SubsystemBase {
 					.withColor(new RGBWColor(LEDConstants.Yellow.getRed(), LEDConstants.Yellow.getGreen(), LEDConstants.Yellow.getBlue())));
 				break;
 
+			case LEFT_TRIGGER:
+			case RIGHT_TRIGGER:
 			case WHITE:
 				candle.setControl(new SolidColor(0, LEDConstants.numLights)
 					.withColor(new RGBWColor(255, 255, 255)));
@@ -141,6 +144,9 @@ public class LEDSubsystem extends SubsystemBase {
 			setLEDs(LEDState.ERROR);
 			return;
 		}
+
+		if (DriverTestController.isRunning() || OperatorTestController.isRunning()) return;
+		
 		// if (aligning && !VisionSubsystem.frontCam.isConnected() && !VisionSubsystem.backCam.isConnected()) {
 		// 	setLEDs(LEDState.ERROR);
 		// 	return;
